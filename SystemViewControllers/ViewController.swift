@@ -34,19 +34,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func cameraButtonTapped(_ sender: Any) {
-        let imageickerViewController = UIImagePickerController()
-        imageickerViewController.delegate = self
+        let imagePickerViewController = UIImagePickerController()
+        imagePickerViewController.delegate = self
         let alert = UIAlertController(title: "Chose Image Source", message: "Вы должны выбрать изображение.", preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
-            print("You selected camera to take a picture.")
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+                imagePickerViewController.sourceType = .camera
+                self.present(imagePickerViewController, animated: true)
+                print("You selected camera to take a picture.")
+            }
+            alert.addAction(cameraAction)
+            
+            let phpPicker = PHPickerViewController(configuration: )
         }
-        let photoLibraryAction = UIAlertAction(title: "Library", style: .default) { _ in
-            print("You open library to select image.")
+        if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let photoLibraryAction = UIAlertAction(title: "Library", style: .default) { _ in
+                print("You open library to select image.")
+                imagePickerViewController.sourceType = .photoLibrary
+                self.present(imagePickerViewController, animated: true)
+            }
+            alert.addAction(photoLibraryAction)
         }
+            
         alert.addAction(cancelAction)
-        alert.addAction(cameraAction)
-        alert.addAction(photoLibraryAction)
         alert.popoverPresentationController?.sourceView = sender as? UIButton
         present(alert, animated: true)
     }
