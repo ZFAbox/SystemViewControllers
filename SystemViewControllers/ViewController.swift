@@ -46,8 +46,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 print("You selected camera to take a picture.")
             }
             alert.addAction(cameraAction)
-            
-            let phpPicker = PHPickerViewController(configuration: )
         }
         if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let photoLibraryAction = UIAlertAction(title: "Library", style: .default) { _ in
@@ -61,6 +59,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         alert.addAction(cancelAction)
         alert.popoverPresentationController?.sourceView = sender as? UIButton
         present(alert, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selevtedImage = info[.originalImage] as? UIImage else { return }
+    
+        imageView.image = selevtedImage
+        dismiss(animated: true)
     }
     
     @IBAction func emailButtonTapped(_ sender: Any) {
