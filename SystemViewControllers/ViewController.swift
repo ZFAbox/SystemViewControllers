@@ -7,8 +7,9 @@
 
 import UIKit
 import SafariServices
+import MessageUI
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     
@@ -69,6 +70,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func emailButtonTapped(_ sender: Any) {
+        guard MFMailComposeViewController.canSendMail() else {
+            print("Your device could not send an e-mail!")
+            return
+        }
+        let mailComposer = MFMailComposeViewController()
+        
     }
 }
 
