@@ -75,7 +75,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             return
         }
         let mailComposer = MFMailComposeViewController()
+        mailComposer.delegate = self
         
+        mailComposer.setSubject("Loaded Image")
+        mailComposer.setBccRecipients(["deathwish-art@mail.ru"])
+        mailComposer.setMessageBody("Image from the app", isHTML: false)
+        if let image = imageView.image, let imageData = image.jpegData(compressionQuality: 0.9) {
+            mailComposer.addAttachmentData(imageData, mimeType: "image/jpeg", fileName: "photo.jpg")
+        }
+        present(mailComposer, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: (any Error)?) {
+        dismiss(animated: true)
+    }
+    func mailComposeControllerDidFinish(_ controller: MFMailComposeViewController) {
+        dismiss(animated: true)
     }
 }
 
